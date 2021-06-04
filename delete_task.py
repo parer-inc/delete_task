@@ -16,7 +16,6 @@ def delete_task(id):
     except MySQLdb.Error as error:
         print(error)
         sys.exit("Error:Failed to delete a task")
-    cursor.execute()
     db.commit()
     return True
 
