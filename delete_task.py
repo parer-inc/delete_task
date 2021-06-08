@@ -10,11 +10,16 @@ from methods.connection import get_redis, get_cursor
 def delete_task(id):
     """Deletes task from db (table tasks)"""
     cursor, db = get_cursor()
+    if not cursor or not db:
+        # log that failed getting cursor
+        return False
     q = f"DELETE FROM tasks WHERE id={id}"
     try:
         cursor.execute(q)
     except MySQLdb.Error as error:
         print(error)
+        # Log
+        return False
         # sys.exit("Error:Failed to delete a task")
     db.commit()
     return True
