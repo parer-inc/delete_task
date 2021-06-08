@@ -6,6 +6,7 @@ import MySQLdb
 from rq import Worker, Queue, Connection
 from methods.connection import get_redis, get_cursor
 
+r = get_redis()
 
 def delete_task(id):
     """Deletes task from db (table tasks)"""
@@ -26,8 +27,7 @@ def delete_task(id):
 
 
 if __name__ == '__main__':
-    time.sleep(5)
-    r = get_redis()
+
     q = Queue('delete_task', connection=r)
     with Connection(r):
         worker = Worker([q], connection=r,  name='delete_task')
