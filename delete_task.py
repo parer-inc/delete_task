@@ -8,13 +8,17 @@ from methods.connection import get_redis, get_cursor
 
 r = get_redis()
 
+
 def delete_task(id):
     """Deletes task from db (table tasks)"""
     cursor, db = get_cursor()
     if not cursor or not db:
         # log that failed getting cursor
         return False
-    q = f"DELETE FROM tasks WHERE id={id}"
+    if id == "ALL":
+        q = "DELETE FROM tasks"
+    else:
+        q = f"DELETE FROM tasks WHERE id={id}"
     try:
         cursor.execute(q)
     except MySQLdb.Error as error:
